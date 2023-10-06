@@ -14,7 +14,7 @@
 
 打开src/main/resources/PluginManifest.properties
 
-找到Main-Class=org.example.JavaIMExamplePlugin.PluginMain
+找到Main-Class=org.yuezhikong.ChatPlugin.PluginMain
 
 将他修改为Main-Class=PackageID.工件id.主class名
 
