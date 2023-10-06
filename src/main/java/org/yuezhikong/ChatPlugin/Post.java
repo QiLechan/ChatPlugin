@@ -4,6 +4,7 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.google.gson.Gson;
+import org.yuezhikong.newServer.plugin.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +16,11 @@ public class Post {
         String result= HttpUtil.post(url, "");
         JSONObject json = JSONUtil.parseObj(result);
         String token = json.getStr("access_token");
-        System.out.println("获取到了Access Token：" + token);
+        Tools.getServerInstance().getLogger().info("获取到了Access Token：" + token);
         return token;
     }
-    public static String chat(String Question, String APIKey, String SecretKey){
-        String url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=" + getToken(APIKey,SecretKey);
+    public static String chat(String Question, String token){
+        String url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=" + token;
         getJson json = new getJson();
         getJson.MessagesBean messagesBean = new getJson.MessagesBean();
         messagesBean.setContent(Question);//Json中的Content
@@ -31,8 +32,8 @@ public class Post {
         JSONObject resultjson = JSONUtil.parseObj(response);
         String result = resultjson.getStr("result");
         String usage = JSONUtil.parseObj((resultjson.getStr("usage"))).getStr("total_tokens");
-        System.out.println(result);
-        System.out.println("使用Token数量：" + usage);
+        Tools.getServerInstance().getLogger().info(result);
+        Tools.getServerInstance().getLogger().info("使用Token数量：" + usage);
         return result;
     }
     public static void assistant(String result){
